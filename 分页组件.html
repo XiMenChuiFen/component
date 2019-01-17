@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+<script type="text/javascript" src="https://cdn.bootcss.com/vue/2.2.2/vue.min.js"></script>
+<style>
+.page-bar{
+    margin:40px;
+}
+ul,li{
+    margin: 0px;
+    padding: 0px;
+}
+li{
+    list-style: none;
+}
+.page-bar li:first-child>a {
+   margin-left: 0px;
+}
+.page-bar a{
+    border: 1px solid #ddd;
+    text-decoration: none;
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    cursor: pointer;
+}
+.page-bar a:hover{
+    background-color: #eee;
+}
+.page-bar a.banclick{
+    cursor:not-allowed;
+}
+.page-bar .active a{
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.page-bar i{
+    font-style:normal;
+    color: #d44950;
+    margin: 0px 4px;
+    font-size: 12px;
+}
+</style>
+</head>
+<body>
+ <div class="page-bar">
+    <ul>
+        <li v-if="nPageIndex>1"><a v-on:click="fPageReduceClick">上一页</a></li>
+        <li v-if="nPageIndex==1"><a class="banclick">上一页</a></li>
+        <li v-for="index in indexs"  v-bind:class="{ 'active': nPageIndex == index}">
+            <a v-on:click="fPageClick(index)">{{ index }}</a>
+        </li>
+        <li v-if="nPageIndex!=all"><a v-on:click="fPageAddClick">下一页</a></li>
+        <li v-if="nPageIndex == all"><a class="banclick">下一页</a></li>
+        <li><a>共<i>{{all}}</i>页</a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+var pageBar = new Vue({
+    el: '.page-bar',
+    data: {
+        all: 8, //总页数
+        nPageIndex: 1,//当前页码
+    },
+     methods: {
+        fPageClick: function(data){//页码点击事件
+            if(data != this.nPageIndex){
+                this.nPageIndex = data;
+            }
+        },
+        fPageAddClick: function(){
+            this.nPageIndex++;
+            console.log('现在在'+this.nPageIndex+'页');
+        },
+        fPageReduceClick: function(){
+            this.nPageIndex--;
+            console.log('现在在'+this.nPageIndex+'页');
+        }
+    },
+
+    computed: {
+        indexs: function(){
+          var left = 1;
+          var right = this.all;
+          var ar = [];
+           if(this.all>= 5){
+                if(this.nPageIndex > 3 && this.nPageIndex < this.all-2){
+                    //当前页大于于3 并且 当前页小于 总页数减2
+                        left = this.nPageIndex - 2;
+                        right = this.nPageIndex + 2;
+
+                }else{
+                    if(this.nPageIndex<=3){
+                        //当前页小于等于3
+                        left = 1;
+                        right = 5;
+                    }else{
+                        //当前页为倒数第二个时
+                        right = this.all;
+                        left = this.all -4;
+                        console.log(1);
+                    }
+                }
+              }
+            while (left <= right){ //循环输出页码
+                ar.push(left);
+                left ++;
+                console.log(ar);
+            }
+        return ar
+       }
+
+    }
+})
+</script>
+</body>
+</html>
