@@ -1,0 +1,16 @@
+<!--component/touch-left/touch-left.wxml-->
+<view class='lists'>
+
+  <view class='list' 
+    wx:for="{{lists}}" 
+    wx:key="{{index}}" 
+    bindtouchstart="touchS" 
+    bindtouchmove="touchM" 
+    bindtouchend="touchE" 
+    data-index="{{index}}"
+  >
+    <view class='list-content {{transition}}' style='right:{{item.left}}px'>{{item.index}}</view>
+    <view class="list-buttom">删除</view>
+  </view>
+
+</view>

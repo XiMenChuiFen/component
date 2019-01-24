@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "touchleft":"../../component/touch-left/touch-left"
+  }
+}
